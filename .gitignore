@@ -1,0 +1,4 @@
+*.pyc
+.cache/
+.eggs/
+pytest_boxed.egg-info/
