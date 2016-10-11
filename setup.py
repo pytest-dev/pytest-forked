@@ -3,13 +3,12 @@ from setuptools import setup
 setup(
     name="pytest-boxed",
     use_scm_version=True,
-    description='run tests in isolated subprocessesfor distributed testing'
-                ' and loop-on-failing modes',
+    description='run tests in isolated forked subprocesses',
     long_description=open('README.rst').read(),
     license='MIT',
     author='holger krekel and contributors',
     author_email='pytest-dev@python.org',
-    url='https://github.com/pytest-dev/pytest-xdist',
+    url='https://github.com/pytest-dev/pytest-boxed',
     platforms=['linux', 'osx'],
     packages=['pytest_boxed'],
     package_dir={'': 'src'},
