@@ -6,6 +6,9 @@ pytest-boxed: run each test in a boxed subprocess
 * ``--boxed``: (not available on Windows) run each test in a boxed_
   subprocess to survive ``SEGFAULTS`` or otherwise dying processes
 
+this plugins is currently deprecated and no longer maintained,
+it was purely extracted to keep backward compat without burdening xdist
+
 
 Installation
 -----------------------
