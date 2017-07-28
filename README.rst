@@ -1,16 +1,5 @@
-
-.. image:: https://travis-ci.org/pytest-dev/pytest-boxed.svg?branch=master
-    :target: https://travis-ci.org/pytest-dev/pytest-boxed
-
-.. image:: http://img.shields.io/pypi/v/pytest-boxed.svg
-   :target: https://pypi.python.org/pypi/pytest-boxed
-
-..
-  .. image:: https://ci.appveyor.com/api/projects/status/56eq1a1avd4sdd7e/branch/master?svg=true
-    :target: https://ci.appveyor.com/project/pytestbot/pytest-xdist
-
 pytest-boxed: run each test in a boxed subprocess
-=========================================
+=================================================
 
 
 
@@ -48,11 +37,3 @@ and use your CPU cores::
 
 this would run 3 testing subprocesses in parallel which each
 create new boxed subprocesses for each test.
-
-
-
-Issue and Bug Tracker
-------------------------
-
-Please use the `pytest issue tracker <https://github.com/pytest-dev/pytest-boxed/issues>`_
-for reporting bugs in this plugin.
