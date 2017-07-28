@@ -1,4 +1,8 @@
 *.pyc
+*.pyo
 .cache/
 .eggs/
+.tox/
+build/
+dist/
 pytest_boxed.egg-info/

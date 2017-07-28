@@ -1,6 +1,8 @@
 
 import py
 from _pytest import runner
+import pytest
+
 
 # copied from xdist remote
 def serialize_report(rep):
@@ -27,13 +29,18 @@ def unserialize_report(name, reportdict):
 
 
 def pytest_addoption(parser):
-    group = parser.getgroup("boxed", "boxed subprocess test execution")
-    group.addoption(
-        '--boxed',
-        action="store_true", dest="boxed", default=False,
-        help="box each test run in a separate process (unix)")
+    try:
+        __import__('xdist.boxed')
+    except ImportError:
+        # dont register own option if xdist.boxed is availiable
+        group = parser.getgroup("boxed", "boxed subprocess test execution")
+        group.addoption(
+            '--boxed',
+            action="store_true", dest="boxed", default=False,
+            help="box each test run in a separate process (unix)")
 
 
+@pytest.mark.tryfirst
 def pytest_runtest_protocol(item):
     if item.config.getvalue("boxed"):
         reports = forked_run_report(item)
