@@ -10,7 +10,7 @@ setup(
     author_email='pytest-dev@python.org',
     url='https://github.com/pytest-dev/pytest-forked',
     platforms=['linux', 'osx'],
-    packages=['pytest_boxed'],
+    packages=['pytest_forked'],
     package_dir={'': 'src'},
     entry_points={
         'pytest11': [

@@ -8,7 +8,7 @@ pytest-forked: run each test in a forked subprocess
 	future maintenance beyond the bare minimum is not plannend until a new maintainer is found
 
 
-* ``--forked``: (not available on Windows) run each test in a boxed_
+* ``--forked``: (not available on Windows) run each test in a forked
   subprocess to survive ``SEGFAULTS`` or otherwise dying processes
 
 
@@ -23,6 +23,7 @@ or use the package in develope/in-place mode with
 a checkout of the `pytest-forked repository`_ ::
 
    pip install -e .
+
 
 Usage examples
 ---------------------
@@ -42,3 +43,6 @@ and use your CPU cores::
 
 this would run 3 testing subprocesses in parallel which each
 create new forked subprocesses for each test.
+
+
+_pytest-forked repository:: 
