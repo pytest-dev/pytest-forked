@@ -1,13 +1,15 @@
-pytest-boxed: run each test in a boxed subprocess
-=================================================
+pytest-forked: run each test in a forked subprocess
+====================================================
 
 
+.. warning::
 
-* ``--boxed``: (not available on Windows) run each test in a boxed_
+	this is a extraction of the xdist --forked module,
+	future maintenance beyond the bare minimum is not plannend until a new maintainer is found
+
+
+* ``--forked``: (not available on Windows) run each test in a boxed_
   subprocess to survive ``SEGFAULTS`` or otherwise dying processes
-
-this plugins is currently deprecated and no longer maintained,
-it was purely extracted to keep backward compat without burdening xdist
 
 
 Installation
@@ -15,10 +17,10 @@ Installation
 
 Install the plugin with::
 
-    pip install pytest-boxed
+    pip install pytest-forked
 
 or use the package in develope/in-place mode with
-a checkout of the `pytest-xdist repository`_ ::
+a checkout of the `pytest-forked repository`_ ::
 
    pip install -e .
 
@@ -29,14 +31,14 @@ If you have tests involving C or C++ libraries you might have to deal
 with tests crashing the process.  For this case you may use the boxing
 options::
 
-    py.test --boxed
+    py.test --forked
 
 which will run each test in a subprocess and will report if a test
 crashed the process.  You can also combine this option with
 running multiple processes via pytest-xdist to speed up the test run
 and use your CPU cores::
 
-    py.test -n3 --boxed
+    py.test -n3 --forked
 
 this would run 3 testing subprocesses in parallel which each
-create new boxed subprocesses for each test.
+create new forked subprocesses for each test.

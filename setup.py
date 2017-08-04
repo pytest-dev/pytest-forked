@@ -8,7 +8,7 @@ setup(
     license='MIT',
     author='pytest-dev',
     author_email='pytest-dev@python.org',
-    url='https://github.com/pytest-dev/pytest-boxed',
+    url='https://github.com/pytest-dev/pytest-forked',
     platforms=['linux', 'osx'],
     packages=['pytest_boxed'],
     package_dir={'': 'src'},
