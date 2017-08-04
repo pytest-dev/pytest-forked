@@ -45,4 +45,4 @@ this would run 3 testing subprocesses in parallel which each
 create new forked subprocesses for each test.
 
 
-_pytest-forked repository:: 
+.. _`pytest-forked repository`: https://github.com/pytest-dev/pytest-forked
