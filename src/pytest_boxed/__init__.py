@@ -1,5 +1,6 @@
 
 import py
+# we know this bit is bad, but we cant help it with the current pytest setup
 from _pytest import runner
 import pytest
 
@@ -20,29 +21,17 @@ def serialize_report(rep):
     return d
 
 
-# copied from xdist remote
-def unserialize_report(name, reportdict):
-    if name == "testreport":
-        return runner.TestReport(**reportdict)
-    elif name == "collectreport":
-        return runner.CollectReport(**reportdict)
-
-
 def pytest_addoption(parser):
-    try:
-        __import__('xdist.boxed')
-    except ImportError:
-        # dont register own option if xdist.boxed is availiable
-        group = parser.getgroup("boxed", "boxed subprocess test execution")
-        group.addoption(
-            '--boxed',
-            action="store_true", dest="boxed", default=False,
-            help="box each test run in a separate process (unix)")
+    group = parser.getgroup("forked", "forked subprocess test execution")
+    group.addoption(
+        '--forked',
+        action="store_true", dest="forked", default=False,
+        help="box each test run in a separate process (unix)")
 
 
 @pytest.mark.tryfirst
 def pytest_runtest_protocol(item):
-    if item.config.getvalue("boxed"):
+    if item.config.getvalue("forked"):
         reports = forked_run_report(item)
         for rep in reports:
             item.ihook.pytest_runtest_logreport(report=rep)
@@ -67,7 +56,7 @@ def forked_run_report(item):
     result = ff.waitfinish()
     if result.retval is not None:
         report_dumps = marshal.loads(result.retval)
-        return [unserialize_report("testreport", x) for x in report_dumps]
+        return [runner.TestReport(**x) for x in report_dumps]
     else:
         if result.exitstatus == EXITSTATUS_TESTEXIT:
             py.test.exit("forked test item %s raised Exit" % (item,))

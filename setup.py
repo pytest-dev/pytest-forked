@@ -1,12 +1,12 @@
 from setuptools import setup
 
 setup(
-    name="pytest-boxed",
+    name="pytest-forked",
     use_scm_version=True,
     description='run tests in isolated forked subprocesses',
     long_description=open('README.rst').read(),
     license='MIT',
-    author='holger krekel and contributors',
+    author='pytest-dev',
     author_email='pytest-dev@python.org',
     url='https://github.com/pytest-dev/pytest-boxed',
     platforms=['linux', 'osx'],
@@ -14,7 +14,7 @@ setup(
     package_dir={'': 'src'},
     entry_points={
         'pytest11': [
-            'pytest_boxed = pytest_boxed',
+            'pytest_forked = pytest_forked',
         ],
     },
     zip_safe=False,

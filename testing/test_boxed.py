@@ -12,7 +12,7 @@ def test_functional_boxed(testdir):
         def test_function():
             os.kill(os.getpid(), 15)
     """)
-    result = testdir.runpytest(p1, "--boxed")
+    result = testdir.runpytest(p1, "--forked")
     result.stdout.fnmatch_lines([
         "*CRASHED*",
         "*1 failed*"
@@ -33,7 +33,7 @@ def test_functional_boxed_capturing(testdir, capmode):
             sys.stderr.write("world\\n")
             os.kill(os.getpid(), 15)
     """)
-    result = testdir.runpytest(p1, "--boxed", "--capture=%s" % capmode)
+    result = testdir.runpytest(p1, "--forked", "--capture=%s" % capmode)
     result.stdout.fnmatch_lines("""
         *CRASHED*
         *stdout*
@@ -46,4 +46,4 @@ def test_functional_boxed_capturing(testdir, capmode):
 
 def test_is_not_boxed_by_default(testdir):
     config = testdir.parseconfig(testdir.tmpdir)
-    assert not config.option.boxed
+    assert not config.option.forked
