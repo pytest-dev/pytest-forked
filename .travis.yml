@@ -8,10 +8,9 @@ cache: pip
 install: pip install -U tox setuptools_scm
 env:
   matrix:
-  - TOXENV=py-pytest27
-  - TOXENV=py-pytest28
   - TOXENV=py-pytest29
   - TOXENV=py-pytest30
+  - TOXENV=py-pytest31
 matrix:
   include:
   - python: '2.7'
