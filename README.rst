@@ -5,11 +5,14 @@ pytest-forked: run each test in a forked subprocess
 .. warning::
 
 	this is a extraction of the xdist --forked module,
-	future maintenance beyond the bare minimum is not planned until a new maintainer is found
+	future maintenance beyond the bare minimum is not planned until a new maintainer is found.
 
 
-* ``--forked``: (not available on Windows) run each test in a forked
-  subprocess to survive ``SEGFAULTS`` or otherwise dying processes
+This plugin **does not work on Windows** because there's no ``fork`` support.
+
+
+* ``--forked``: run each test in a forked
+  subprocess to survive ``SEGFAULTS`` or otherwise dying processes.
 
 
 Installation
