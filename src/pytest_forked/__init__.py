@@ -1,4 +1,4 @@
-
+import os
 import py
 # we know this bit is bad, but we cant help it with the current pytest setup
 from _pytest import runner
@@ -49,7 +49,7 @@ def forked_run_report(item):
         try:
             reports = runtestprotocol(item, log=False)
         except KeyboardInterrupt:
-            py.std.os._exit(EXITSTATUS_TESTEXIT)
+            os._exit(EXITSTATUS_TESTEXIT)
         return marshal.dumps([serialize_report(x) for x in reports])
 
     ff = py.process.ForkedFunc(runforked)
@@ -59,7 +59,7 @@ def forked_run_report(item):
         return [runner.TestReport(**x) for x in report_dumps]
     else:
         if result.exitstatus == EXITSTATUS_TESTEXIT:
-            py.test.exit("forked test item %s raised Exit" % (item,))
+            pytest.exit("forked test item %s raised Exit" % (item,))
         return [report_process_crash(item, result)]
 
 
