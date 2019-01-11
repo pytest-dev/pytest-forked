@@ -22,8 +22,8 @@ def test_functional_boxed(testdir):
 @needsfork
 @pytest.mark.parametrize("capmode", [
     "no",
-    pytest.mark.xfail("sys", reason="capture cleanup needed"),
-    pytest.mark.xfail("fd", reason="capture cleanup needed")])
+    pytest.param("sys", marks=pytest.mark.xfail(reason="capture cleanup needed")),
+    pytest.param("fd", marks=pytest.mark.xfail(reason="capture cleanup needed"))])
 def test_functional_boxed_capturing(testdir, capmode):
     p1 = testdir.makepyfile("""
         import os
