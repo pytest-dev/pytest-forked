@@ -11,6 +11,7 @@ env:
   - TOXENV=py-pytest29
   - TOXENV=py-pytest30
   - TOXENV=py-pytest31
+  - TOXENV=py-pytestlatest
 matrix:
   include:
   - python: '2.7'
