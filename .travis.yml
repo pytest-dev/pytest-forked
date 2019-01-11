@@ -9,6 +9,7 @@ install: pip install -U tox setuptools_scm
 env:
   matrix:
   - TOXENV=py-pytest31
+  - TOXENV=py-pytest40
   - TOXENV=py-pytestlatest
 matrix:
   include:
