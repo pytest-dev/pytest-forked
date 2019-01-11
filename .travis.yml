@@ -8,8 +8,6 @@ cache: pip
 install: pip install -U tox setuptools_scm
 env:
   matrix:
-  - TOXENV=py-pytest29
-  - TOXENV=py-pytest30
   - TOXENV=py-pytest31
   - TOXENV=py-pytestlatest
 matrix:
