@@ -18,7 +18,7 @@ setup(
         ],
     },
     zip_safe=False,
-    install_requires=['pytest>=2.6.0'],
+    install_requires=['pytest>=3.1.0'],
     setup_requires=['setuptools_scm'],
     classifiers=[
         'Development Status :: 7 - Inactive',
