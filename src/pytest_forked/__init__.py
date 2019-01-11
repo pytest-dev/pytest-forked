@@ -69,7 +69,8 @@ def report_process_crash(item, result):
             (path, lineno, result.signal))
     from _pytest import runner
     # pytest >= 4.1
-    if hasattr(runner.CallInfo, "from_call"):
+    has_from_call = getattr(runner.CallInfo, "from_call", None) is not None
+    if has_from_call:
         call = runner.CallInfo.from_call(lambda: 0/0, "???")
     else:
         call = runner.CallInfo(lambda: 0/0, "???")
