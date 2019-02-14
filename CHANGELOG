@@ -1,3 +1,8 @@
+v1.0.2
+======
+
+* Fix support for pytest 4.2.
+
 v1.0.1
 ======
 
