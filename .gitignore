@@ -5,4 +5,4 @@
 .tox/
 build/
 dist/
-pytest_boxed.egg-info/
+src/pytest_forked.egg-info/
