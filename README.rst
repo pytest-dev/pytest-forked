@@ -35,14 +35,14 @@ If you have tests involving C or C++ libraries you might have to deal
 with tests crashing the process.  For this case you may use the boxing
 options::
 
-    py.test --forked
+    pytest --forked
 
 which will run each test in a subprocess and will report if a test
 crashed the process.  You can also combine this option with
 running multiple processes via pytest-xdist to speed up the test run
 and use your CPU cores::
 
-    py.test -n3 --forked
+    pytest -n3 --forked
 
 this would run 3 testing subprocesses in parallel which each
 create new forked subprocesses for each test.
