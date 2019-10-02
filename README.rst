@@ -48,4 +48,14 @@ this would run 3 testing subprocesses in parallel which each
 create new forked subprocesses for each test.
 
 
+You can also fork for individual tests::
+
+    @pytest.mark.forked
+    def test_with_leaky_state():
+        run_some_monkey_patches()
+
+
+This test will be unconditionally boxed, regardless of CLI flag.
+
+
 .. _`pytest-forked repository`: https://github.com/pytest-dev/pytest-forked
