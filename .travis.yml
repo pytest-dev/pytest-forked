@@ -17,6 +17,18 @@ matrix:
     env: TOXENV=flakes
   - python: '3.6'
     env: TOXENV=readme
+
+    # piggyback on existing build for releases
+    deploy:
+      provider: pypi
+      user: nicoddemus
+      password:
+        secure: KJgDEXYiKYNiV1Ef0kCYrJr3LvIUrZbEnwc/x5eTXpLHZCLmiJ33tbYDRLzX+uWcvqXpFjVjEtWHOOfhP9sRPl4jbmM0MJrNmO4mqTSCzN1VnVx9fPJXpD74rtjLxMsZNrHjqEWWjeqsqDryGID7O3zm0f/p/FqKEYKBCffhc2AyJN4Bb1d564JLwM1dZUPGAWU5spkDB/0gSvTGtQ1gxl5xtEAwMX59gWzwJ96kj5qKGPBXdQLWPkhXz45/5XQUdxjwJjyRJws5EoCzOD+E/C+Tcc3NKCkksZUGejt7cBpU+rFpqzGSUDv5KBsQoXELElC2yXxFJhqrfoTFkxZqFc4qSvnYRlOlx9M2FPsUqnOwS5RlEgGmadjN4CJe0mlxS+/Yx1V1aDSnaFFCWLsApMDbKgoozB6NPQvSraOvRF28J7CsTSFCvbI1dR1lEYhZVc5XTwt0mI/0w4iXkvGNMJ0Sb0grqj7rPEPiuf1RU/Y9CNtR/yhez02zbYjIzgERUB6Sq3YGg1q2cefkvoiq3eWWV4vf8e1rXVdvs/UdJnj8zTwMbiaWh13CCu+Z8bTEKgaiUAOaTs0y1mxPg4dRGJdVCPceUn3pMeeTl2XBxWr9CkMhDY06IMLd2PmyYfVYIWUkssT235ALZ5kPdk1TmiqmtbKyd+pAga1IWtFbOCY=
+      on:
+        tags: true
+        distributions: sdist bdist_wheel
+        repo: pytest-dev/pytest-forked
+
 script: tox
 notifications:
   irc:
@@ -27,12 +39,3 @@ notifications:
     skip_join: true
   email:
   - pytest-commit@python.org
-deploy:
-  provider: pypi
-  user: nicoddemus
-  password:
-    secure: KJgDEXYiKYNiV1Ef0kCYrJr3LvIUrZbEnwc/x5eTXpLHZCLmiJ33tbYDRLzX+uWcvqXpFjVjEtWHOOfhP9sRPl4jbmM0MJrNmO4mqTSCzN1VnVx9fPJXpD74rtjLxMsZNrHjqEWWjeqsqDryGID7O3zm0f/p/FqKEYKBCffhc2AyJN4Bb1d564JLwM1dZUPGAWU5spkDB/0gSvTGtQ1gxl5xtEAwMX59gWzwJ96kj5qKGPBXdQLWPkhXz45/5XQUdxjwJjyRJws5EoCzOD+E/C+Tcc3NKCkksZUGejt7cBpU+rFpqzGSUDv5KBsQoXELElC2yXxFJhqrfoTFkxZqFc4qSvnYRlOlx9M2FPsUqnOwS5RlEgGmadjN4CJe0mlxS+/Yx1V1aDSnaFFCWLsApMDbKgoozB6NPQvSraOvRF28J7CsTSFCvbI1dR1lEYhZVc5XTwt0mI/0w4iXkvGNMJ0Sb0grqj7rPEPiuf1RU/Y9CNtR/yhez02zbYjIzgERUB6Sq3YGg1q2cefkvoiq3eWWV4vf8e1rXVdvs/UdJnj8zTwMbiaWh13CCu+Z8bTEKgaiUAOaTs0y1mxPg4dRGJdVCPceUn3pMeeTl2XBxWr9CkMhDY06IMLd2PmyYfVYIWUkssT235ALZ5kPdk1TmiqmtbKyd+pAga1IWtFbOCY=
-  on:
-    tags: true
-    distributions: sdist bdist_wheel
-    repo: pytest-dev/pytest-forked
