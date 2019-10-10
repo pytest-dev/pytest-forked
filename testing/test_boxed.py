@@ -20,6 +20,23 @@ def test_functional_boxed(testdir):
 
 
 @needsfork
+def test_functional_boxed_per_test(testdir):
+    p1 = testdir.makepyfile("""
+        import os
+        import pytest
+
+        @pytest.mark.forked
+        def test_function():
+            os.kill(os.getpid(), 15)
+    """)
+    result = testdir.runpytest(p1)
+    result.stdout.fnmatch_lines([
+        "*CRASHED*",
+        "*1 failed*"
+    ])
+
+
+@needsfork
 @pytest.mark.parametrize("capmode", [
     "no",
     pytest.param("sys", marks=pytest.mark.xfail(reason="capture cleanup needed")),
