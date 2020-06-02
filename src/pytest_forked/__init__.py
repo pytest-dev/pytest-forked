@@ -71,13 +71,8 @@ def forked_run_report(item):
 
 
 def report_process_crash(item, result):
-    try:
-        from _pytest.compat import getfslineno
-    except ImportError:
-        # pytest<4.2
-        path, lineno = item._getfslineno()
-    else:
-        path, lineno = getfslineno(item)
+    from _pytest._code.source import getfslineno
+    path, lineno = getfslineno(item)
     info = ("%s:%s: running the test CRASHED with signal %d" %
             (path, lineno, result.signal))
     from _pytest import runner
