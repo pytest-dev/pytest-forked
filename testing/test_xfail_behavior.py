@@ -123,5 +123,9 @@ def test_xfail(is_crashing, is_strict, testdir):
         format(**locals())
     )
 
-    pytest_run_result = testdir.runpytest(test_module, '-ra')
+    pytest_run_result = testdir.runpytest(
+        test_module,
+        '-ra',
+        '-p', 'no:warnings',  # the current implementation emits RuntimeWarning
+    )
     pytest_run_result.stdout.fnmatch_lines(expected_lines)
