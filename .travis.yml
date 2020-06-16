@@ -1,22 +1,26 @@
-sudo: false
 language: python
 python:
+- '3.8'
 - '2.7'
-- '3.5'
-- '3.6'
 - '3.7'
+- '3.6'
+- '3.5'
 cache: pip
 install: pip install -U tox setuptools_scm
 env:
   matrix:
-  - TOXENV=py-pytest31
-  - TOXENV=py-pytest40
+  - TOXENV=py-pytest310
+  - TOXENV=py-pytest46
+  - TOXENV=py-pytest54
   - TOXENV=py-pytestlatest
 matrix:
+  exclude:
+  - python: '2.7'  # pytest 5+ does not support Python 2
+    env: TOXENV=py-pytest54
   include:
-  - python: '3.7'
+  - python: '3.8'
     env: TOXENV=flakes
-  - python: '3.7'
+  - python: '3.8'
     env: TOXENV=readme
 
     # piggyback on existing build for releases
