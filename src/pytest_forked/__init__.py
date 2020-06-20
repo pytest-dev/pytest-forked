@@ -1,4 +1,6 @@
 import os
+import warnings
+
 import py
 # we know this bit is bad, but we cant help it with the current pytest setup
 from _pytest import runner
@@ -88,4 +90,24 @@ def report_process_crash(item, result):
         rep.sections.append(("captured stdout", result.out))
     if result.err:
         rep.sections.append(("captured stderr", result.err))
+
+    xfail_marker = item.get_closest_marker('xfail')
+    if not xfail_marker:
+        return rep
+
+    rep.outcome = "skipped"
+    rep.wasxfail = (
+        "reason: {xfail_reason}; "
+        "pytest-forked reason: {crash_info}".
+        format(
+            xfail_reason=xfail_marker.kwargs['reason'],
+            crash_info=info,
+        )
+    )
+    warnings.warn(
+        'pytest-forked xfail support is incomplete at the moment and may '
+        'output a misleading reason message',
+        RuntimeWarning,
+    )
+
     return rep
