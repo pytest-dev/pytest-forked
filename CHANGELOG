@@ -1,3 +1,10 @@
+v1.2.0
+======
+
+* Add limited support for xfail marker (issue #33 / PR #34).
+* Fix support for pytest 5.4.0+ (issue #30 / PR #32).
+* Drop support for Python 3.4 as it is EOL (PR #39).
+
 v1.1.3
 ======
 
