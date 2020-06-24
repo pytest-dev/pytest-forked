@@ -5,6 +5,7 @@ setup(
     use_scm_version=True,
     description='run tests in isolated forked subprocesses',
     long_description=open('README.rst').read(),
+    long_description_content_type='text/x-rst',
     license='MIT',
     author='pytest-dev',
     author_email='pytest-dev@python.org',
