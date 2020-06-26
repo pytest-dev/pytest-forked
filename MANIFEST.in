@@ -6,3 +6,5 @@ include setup.py
 include tox.ini
 graft testing
 prune .git
+exclude .gitignore
+exclude .travis.yml
