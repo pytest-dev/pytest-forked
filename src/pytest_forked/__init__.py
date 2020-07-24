@@ -38,7 +38,7 @@ def pytest_load_initial_conftests(early_config, parser, args):
     )
 
 
-@pytest.mark.tryfirst
+@pytest.hookimpl(tryfirst=True)
 def pytest_runtest_protocol(item):
     if item.config.getvalue("forked") or item.get_closest_marker("forked"):
         reports = forked_run_report(item)
