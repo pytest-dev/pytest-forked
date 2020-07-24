@@ -53,7 +53,7 @@ def test_xfail(is_crashing, is_strict, testdir):
     session_start_title = '*==== test session starts ====*'
     loaded_pytest_plugins = 'plugins: forked*'
     collected_tests_num = 'collected 1 item'
-    expected_progress = 'test_xfail.py {expected_letter!s}'.format(**locals())
+    expected_progress = 'test_xfail.py {expected_letter!s}*'.format(**locals())
     failures_title = '*==== FAILURES ====*'
     failures_test_name = '*____ test_function ____*'
     failures_test_reason = '[XPASS(strict)] The process gets terminated'
