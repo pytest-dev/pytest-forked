@@ -1,3 +1,10 @@
+v1.3.0
+======
+
+* Add support for pytest 6 (issue #45 / PR #46)
+* Replace `@pytest.mark.tryfirst` with newer `@pytest.hookimpl` (PR #46)
+* Invoke `pytest_runtest_logstart` and `pytest_runtest_logfinish` hooks in `runtest_protocol` (issue #31 / PR #46)
+
 v1.2.0
 ======
 
