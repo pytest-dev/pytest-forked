@@ -12,11 +12,19 @@ env:
   - TOXENV=py-pytest310
   - TOXENV=py-pytest46
   - TOXENV=py-pytest54
+  - TOXENV=py-pytest60
   - TOXENV=py-pytestlatest
+  - TOXENV=py-pytestmaster
 matrix:
   exclude:
   - python: '2.7'  # pytest 5+ does not support Python 2
     env: TOXENV=py-pytest54
+  - python: '2.7'  # pytest 5+ does not support Python 2
+    env: TOXENV=py-pytest60
+  - python: '2.7'  # pytest 5+ does not support Python 2
+    env: TOXENV=py-pytestmaster
+  - python: '2.7'  # Same as pytest54 for Python 2
+    env: TOXENV=py-pytestlatest
   include:
   - python: '3.8'
     env: TOXENV=flakes
