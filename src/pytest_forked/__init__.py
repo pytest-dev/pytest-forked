@@ -38,12 +38,15 @@ def pytest_load_initial_conftests(early_config, parser, args):
     )
 
 
-@pytest.mark.tryfirst
+@pytest.hookimpl(tryfirst=True)
 def pytest_runtest_protocol(item):
     if item.config.getvalue("forked") or item.get_closest_marker("forked"):
+        ihook = item.ihook
+        ihook.pytest_runtest_logstart(nodeid=item.nodeid, location=item.location)
         reports = forked_run_report(item)
         for rep in reports:
-            item.ihook.pytest_runtest_logreport(report=rep)
+            ihook.pytest_runtest_logreport(report=rep)
+        ihook.pytest_runtest_logfinish(nodeid=item.nodeid, location=item.location)
         return True
 
 
@@ -73,7 +76,7 @@ def forked_run_report(item):
 
 
 def report_process_crash(item, result):
-    from _pytest._code.source import getfslineno
+    from _pytest._code import getfslineno
     path, lineno = getfslineno(item)
     info = ("%s:%s: running the test CRASHED with signal %d" %
             (path, lineno, result.signal))
