@@ -14,7 +14,7 @@ env:
   - TOXENV=py-pytest54
   - TOXENV=py-pytest62
   - TOXENV=py-pytestlatest
-  - TOXENV=py-pytestmaster
+  - TOXENV=py-pytestmain
 matrix:
   include:
   - python: '3.8'
