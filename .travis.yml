@@ -1,10 +1,10 @@
 language: python
 python:
+- '3.10-dev'
+- '3.9'
 - '3.8'
-- '2.7'
 - '3.7'
 - '3.6'
-- '3.5'
 cache: pip
 install: pip install -U tox setuptools_scm
 env:
@@ -12,19 +12,10 @@ env:
   - TOXENV=py-pytest310
   - TOXENV=py-pytest46
   - TOXENV=py-pytest54
-  - TOXENV=py-pytest60
+  - TOXENV=py-pytest62
   - TOXENV=py-pytestlatest
-  - TOXENV=py-pytestmaster
+  - TOXENV=py-pytestmain
 matrix:
-  exclude:
-  - python: '2.7'  # pytest 5+ does not support Python 2
-    env: TOXENV=py-pytest54
-  - python: '2.7'  # pytest 5+ does not support Python 2
-    env: TOXENV=py-pytest60
-  - python: '2.7'  # pytest 5+ does not support Python 2
-    env: TOXENV=py-pytestmaster
-  - python: '2.7'  # Same as pytest54 for Python 2
-    env: TOXENV=py-pytestlatest
   include:
   - python: '3.8'
     env: TOXENV=flakes

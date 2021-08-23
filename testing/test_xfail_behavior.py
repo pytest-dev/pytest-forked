@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 """Tests for xfail support."""
 import os
 import signal
