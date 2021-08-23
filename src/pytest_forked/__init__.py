@@ -71,7 +71,7 @@ def forked_run_report(item):
         return [runner.TestReport(**x) for x in report_dumps]
     else:
         if result.exitstatus == EXITSTATUS_TESTEXIT:
-            pytest.exit("forked test item %s raised Exit" % (item,))
+            pytest.exit(f"forked test item {item} raised Exit")
         return [report_process_crash(item, result)]
 
 
