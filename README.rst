@@ -16,14 +16,14 @@ This plugin **does not work on Windows** because there's no ``fork`` support.
 
 |python| |version| |ci|
 
-.. |version| image:: http://img.shields.io/pypi/v/pytest-mock.svg
-  :target: https://pypi.python.org/pypi/pytest-mock
+.. |version| image:: http://img.shields.io/pypi/v/pytest-forked.svg
+  :target: https://pypi.python.org/pypi/pytest-forked
 
-.. |ci| image:: https://github.com/pytest-dev/pytest-mock/workflows/build/badge.svg
-  :target: https://github.com/pytest-dev/pytest-mock/actions
+.. |ci| image:: https://github.com/pytest-dev/pytest-forked/workflows/build/badge.svg
+  :target: https://github.com/pytest-dev/pytest-forked/actions
 
-.. |python| image:: https://img.shields.io/pypi/pyversions/pytest-mock.svg
-  :target: https://pypi.python.org/pypi/pytest-mock/
+.. |python| image:: https://img.shields.io/pypi/pyversions/pytest-forked.svg
+  :target: https://pypi.python.org/pypi/pytest-forked/
 
 Installation
 -----------------------
