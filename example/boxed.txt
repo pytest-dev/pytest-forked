@@ -14,7 +14,7 @@ to run each test in a controlled subprocess.  Here is a basic example::
     @pytest.mark.parametrize("arg", range(50))
     def test_func(arg):
         time.sleep(0.05) # each tests takes a while
-        if arg % 19 == 0: 
+        if arg % 19 == 0:
             os.kill(os.getpid(), 15)
 
 If you run this with::
@@ -24,9 +24,9 @@ If you run this with::
     platform linux2 -- Python 2.7.3 -- pytest-2.3.0.dev8
     plugins: xdist, bugzilla, cache, oejskit, cli, pep8, cov
     collecting ... collected 50 items
-    
+
     test_module.py f..................f..................f...........
-    
+
     ================================= FAILURES =================================
     _______________________________ test_func[0] _______________________________
     /home/hpk/tmp/doc-exec-420/test_module.py:6: running the test CRASHED with signal 15
@@ -46,7 +46,7 @@ the xdist-provided parallelization feature to speed up your testing::
     plugins: xdist, bugzilla, cache, oejskit, cli, pep8, cov
     gw0 I / gw1 I / gw2 I
     gw0 [50] / gw1 [50] / gw2 [50]
-    
+
     scheduling tests via LoadScheduling
     ..f...............f..................f............
     ================================= FAILURES =================================
