@@ -99,7 +99,7 @@ def test_xfail(is_crashing, is_strict, testdir):
     expected_lines += (total_summary_line,)
 
     test_module = testdir.makepyfile(
-        """
+        f"""
         import os
         import signal
 
@@ -115,9 +115,7 @@ def test_xfail(is_crashing, is_strict, testdir):
         @pytest.mark.forked
         def test_function():
             {test_func_body!s}
-        """.format(
-            **locals()
-        )
+        """
     )
 
     pytest_run_result = testdir.runpytest(test_module, "-ra")
