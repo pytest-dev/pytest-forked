@@ -14,6 +14,16 @@ This plugin **does not work on Windows** because there's no ``fork`` support.
 * ``--forked``: run each test in a forked
   subprocess to survive ``SEGFAULTS`` or otherwise dying processes.
 
+|python| |version| |ci|
+
+.. |version| image:: http://img.shields.io/pypi/v/pytest-mock.svg
+  :target: https://pypi.python.org/pypi/pytest-mock
+
+.. |ci| image:: https://github.com/pytest-dev/pytest-mock/workflows/build/badge.svg
+  :target: https://github.com/pytest-dev/pytest-mock/actions
+
+.. |python| image:: https://img.shields.io/pypi/pyversions/pytest-mock.svg
+  :target: https://pypi.python.org/pypi/pytest-mock/
 
 Installation
 -----------------------
