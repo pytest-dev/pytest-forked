@@ -1,3 +1,9 @@
+v1.4.0
+======
+
+* Dropped support for Python 2.7 and 3.5.
+* Added official support for Python 3.10.
+
 v1.3.0
 ======
 
