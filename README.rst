@@ -14,6 +14,22 @@ This plugin **does not work on Windows** because there's no ``fork`` support.
 * ``--forked``: run each test in a forked
   subprocess to survive ``SEGFAULTS`` or otherwise dying processes.
 
+|python| |version| |ci| |pre-commit| |black|
+
+.. |version| image:: http://img.shields.io/pypi/v/pytest-forked.svg
+  :target: https://pypi.python.org/pypi/pytest-forked
+
+.. |ci| image:: https://github.com/pytest-dev/pytest-forked/workflows/build/badge.svg
+  :target: https://github.com/pytest-dev/pytest-forked/actions
+
+.. |python| image:: https://img.shields.io/pypi/pyversions/pytest-forked.svg
+  :target: https://pypi.python.org/pypi/pytest-forked/
+
+.. |black| image:: https://img.shields.io/badge/code%20style-black-000000.svg
+  :target: https://github.com/ambv/black
+
+.. |pre-commit| image:: https://results.pre-commit.ci/badge/github/pytest-dev/pytest-forked/master.svg
+   :target: https://results.pre-commit.ci/latest/github/pytest-dev/pytest-forked/master
 
 Installation
 -----------------------

@@ -7,6 +7,7 @@ pytest_plugins = "pytester"
 @pytest.fixture(autouse=True)
 def _divert_atexit(request, monkeypatch):
     import atexit
+
     atexit_fns = []
 
     def atexit_register(func, *args, **kwargs):

@@ -2,19 +2,21 @@ import os
 import warnings
 
 import py
-# we know this bit is bad, but we cant help it with the current pytest setup
-from _pytest import runner
 import pytest
+from _pytest import runner
+
+# we know this bit is bad, but we cant help it with the current pytest setup
 
 
 # copied from xdist remote
 def serialize_report(rep):
     import py
+
     d = rep.__dict__.copy()
-    if hasattr(rep.longrepr, 'toterminal'):
-        d['longrepr'] = str(rep.longrepr)
+    if hasattr(rep.longrepr, "toterminal"):
+        d["longrepr"] = str(rep.longrepr)
     else:
-        d['longrepr'] = rep.longrepr
+        d["longrepr"] = rep.longrepr
     for name in d:
         if isinstance(d[name], py.path.local):
             d[name] = str(d[name])
@@ -26,9 +28,12 @@ def serialize_report(rep):
 def pytest_addoption(parser):
     group = parser.getgroup("forked", "forked subprocess test execution")
     group.addoption(
-        '--forked',
-        action="store_true", dest="forked", default=False,
-        help="box each test run in a separate process (unix)")
+        "--forked",
+        action="store_true",
+        dest="forked",
+        default=False,
+        help="box each test run in a separate process (unix)",
+    )
 
 
 def pytest_load_initial_conftests(early_config, parser, args):
@@ -54,6 +59,7 @@ def forked_run_report(item):
     # for now, we run setup/teardown in the subprocess
     # XXX optionally allow sharing of setup/teardown
     from _pytest.runner import runtestprotocol
+
     EXITSTATUS_TESTEXIT = 4
     import marshal
 
@@ -77,16 +83,21 @@ def forked_run_report(item):
 
 def report_process_crash(item, result):
     from _pytest._code import getfslineno
+
     path, lineno = getfslineno(item)
-    info = ("%s:%s: running the test CRASHED with signal %d" %
-            (path, lineno, result.signal))
+    info = "%s:%s: running the test CRASHED with signal %d" % (
+        path,
+        lineno,
+        result.signal,
+    )
     from _pytest import runner
+
     # pytest >= 4.1
     has_from_call = getattr(runner.CallInfo, "from_call", None) is not None
     if has_from_call:
-        call = runner.CallInfo.from_call(lambda: 0/0, "???")
+        call = runner.CallInfo.from_call(lambda: 0 / 0, "???")
     else:
-        call = runner.CallInfo(lambda: 0/0, "???")
+        call = runner.CallInfo(lambda: 0 / 0, "???")
     call.excinfo = info
     rep = runner.pytest_runtest_makereport(item, call)
     if result.out:
@@ -94,22 +105,21 @@ def report_process_crash(item, result):
     if result.err:
         rep.sections.append(("captured stderr", result.err))
 
-    xfail_marker = item.get_closest_marker('xfail')
+    xfail_marker = item.get_closest_marker("xfail")
     if not xfail_marker:
         return rep
 
     rep.outcome = "skipped"
     rep.wasxfail = (
         "reason: {xfail_reason}; "
-        "pytest-forked reason: {crash_info}".
-        format(
-            xfail_reason=xfail_marker.kwargs['reason'],
+        "pytest-forked reason: {crash_info}".format(
+            xfail_reason=xfail_marker.kwargs["reason"],
             crash_info=info,
         )
     )
     warnings.warn(
-        'pytest-forked xfail support is incomplete at the moment and may '
-        'output a misleading reason message',
+        "pytest-forked xfail support is incomplete at the moment and may "
+        "output a misleading reason message",
         RuntimeWarning,
     )
 

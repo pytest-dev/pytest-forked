@@ -5,13 +5,12 @@ on: [push, pull_request]
 jobs:
   build:
 
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
 
     strategy:
       fail-fast: false
       matrix:
         python: ["3.6", "3.7", "3.8", "3.9", "3.10"]
-        os: [ubuntu-latest, windows-latest]
         include:
           - python: "3.6"
             tox_env: "py36"
@@ -22,7 +21,7 @@ jobs:
           - python: "3.9"
             tox_env: "py39"
           - python: "3.10"
-            tox_env: "py310"  
+            tox_env: "py310"
 
     steps:
     - uses: actions/checkout@v1
@@ -63,4 +62,4 @@ jobs:
       uses: pypa/gh-action-pypi-publish@master
       with:
         user: __token__
-        password: ${{ secrets.pypi_token }}    
+        password: ${{ secrets.pypi_token }}
