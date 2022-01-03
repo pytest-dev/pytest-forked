@@ -50,14 +50,12 @@ def test_xfail(is_crashing, is_strict, testdir):
     session_start_title = "*==== test session starts ====*"
     loaded_pytest_plugins = "plugins: forked*"
     collected_tests_num = "collected 1 item"
-    expected_progress = "test_xfail.py {expected_letter!s}*".format(**locals())
+    expected_progress = f"test_xfail.py {expected_letter!s}*"
     failures_title = "*==== FAILURES ====*"
     failures_test_name = "*____ test_function ____*"
     failures_test_reason = "[XPASS(strict)] The process gets terminated"
     short_test_summary_title = "*==== short test summary info ====*"
-    short_test_summary = "{expected_word!s} test_xfail.py::test_function".format(
-        **locals()
-    )
+    short_test_summary = f"{expected_word!s} test_xfail.py::test_function"
     if expected_lowercase == "xpassed":
         # XPASS wouldn't have the crash message from
         # pytest-forked because the crash doesn't happen
@@ -68,13 +66,11 @@ def test_xfail(is_crashing, is_strict, testdir):
             )
         )
     reason_string = (
-        "  reason: The process gets terminated; "
-        "pytest-forked reason: "
-        "*:*: running the test CRASHED with signal {sig_num:d}".format(**locals())
+        f"  reason: The process gets terminated; "
+        f"pytest-forked reason: "
+        f"*:*: running the test CRASHED with signal {sig_num:d}"
     )
-    total_summary_line = "*==== 1 {expected_lowercase!s} in 0.*s* ====*".format(
-        **locals()
-    )
+    total_summary_line = f"*==== 1 {expected_lowercase!s} in 0.*s* ====*"
 
     expected_lines = (
         session_start_title,
