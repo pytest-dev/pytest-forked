@@ -6,6 +6,7 @@ import pytest
 
 IS_PYTEST4_PLUS = int(pytest.__version__[0]) >= 4  # noqa: WPS609
 FAILED_WORD = "FAILED" if IS_PYTEST4_PLUS else "FAIL"
+PYTEST_GTE_7_2 = hasattr(pytest, "version_tuple") and pytest.version_tuple >= (7, 2)  # type: ignore[attr-defined]
 
 pytestmark = pytest.mark.skipif(  # pylint: disable=invalid-name
     not hasattr(os, "fork"),  # noqa: WPS421
@@ -66,10 +67,12 @@ def test_xfail(is_crashing, is_strict, testdir):
             )
         )
     reason_string = (
-        f"  reason: The process gets terminated; "
+        f"reason: The process gets terminated; "
         f"pytest-forked reason: "
         f"*:*: running the test CRASHED with signal {sig_num:d}"
     )
+    if expected_lowercase == "xfailed" and PYTEST_GTE_7_2:
+        short_test_summary += " - " + reason_string
     total_summary_line = f"*==== 1 {expected_lowercase!s} in 0.*s* ====*"
 
     expected_lines = (
@@ -91,7 +94,7 @@ def test_xfail(is_crashing, is_strict, testdir):
     )
     if expected_lowercase == "xpassed" and expected_word == FAILED_WORD:
         # XPASS(strict)
-        expected_lines += (reason_string,)
+        expected_lines += ("  " + reason_string,)
     expected_lines += (total_summary_line,)
 
     test_module = testdir.makepyfile(
