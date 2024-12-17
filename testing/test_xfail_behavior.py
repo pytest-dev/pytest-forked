@@ -50,7 +50,7 @@ def test_xfail(is_crashing, is_strict, testdir):
         expected_word = "XPASS"
 
     session_start_title = "*==== test session starts ====*"
-    loaded_pytest_plugins = "plugins: forked*"
+    loaded_pytest_plugins = "plugins:* forked*"
     collected_tests_num = "collected 1 item"
     expected_progress = f"test_xfail.py {expected_letter!s}*"
     failures_title = "*==== FAILURES ====*"
