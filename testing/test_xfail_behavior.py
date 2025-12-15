@@ -8,6 +8,7 @@ IS_PYTEST4_PLUS = int(pytest.__version__[0]) >= 4  # noqa: WPS609
 FAILED_WORD = "FAILED" if IS_PYTEST4_PLUS else "FAIL"
 PYTEST_GTE_7_2 = hasattr(pytest, "version_tuple") and pytest.version_tuple >= (7, 2)  # type: ignore[attr-defined]
 PYTEST_GTE_8_0 = hasattr(pytest, "version_tuple") and pytest.version_tuple >= (8, 0)  # type: ignore[attr-defined]
+PYTEST_GTE_9_0 = hasattr(pytest, "version_tuple") and pytest.version_tuple >= (9, 0)  # type: ignore[attr-defined]
 
 pytestmark = pytest.mark.skipif(  # pylint: disable=invalid-name
     not hasattr(os, "fork"),  # noqa: WPS421
@@ -72,6 +73,8 @@ def test_xfail(is_crashing, is_strict, testdir):
     )
     if expected_lowercase == "xfailed" and PYTEST_GTE_7_2:
         short_test_summary += " - " + reason_string
+    if expected_lowercase == "failed" and PYTEST_GTE_9_0:
+        short_test_summary += " - [XPASS(strict)] The process gets termin..."
     total_summary_line = f"*==== 1 {expected_lowercase!s} in 0.*s* ====*"
 
     expected_lines = (
