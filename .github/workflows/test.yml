@@ -10,23 +10,23 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        python: ["3.7", "3.8", "3.9", "3.10", "3.11"]
+        python: ["3.10", "3.11", "3.12", "3.13", "3.14"]
         include:
-          - python: "3.7"
-            tox_env: "py37"
-          - python: "3.8"
-            tox_env: "py38"
-          - python: "3.9"
-            tox_env: "py39"
           - python: "3.10"
             tox_env: "py310"
           - python: "3.11"
             tox_env: "py311"
+          - python: "3.12"
+            tox_env: "py312"
+          - python: "3.13"
+            tox_env: "py313"
+          - python: "3.14"
+            tox_env: "py314"
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v5
       with:
         python-version: ${{ matrix.python }}
     - name: Install tox
@@ -40,6 +40,6 @@ jobs:
   check-package:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
     - name: Build and Check Package
-      uses: hynek/build-and-inspect-python-package@v1.5
+      uses: hynek/build-and-inspect-python-package@v2
