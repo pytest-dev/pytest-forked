@@ -1,3 +1,8 @@
+UNRELEASED
+==========
+
+* Drop support for EOL Python versions: 3.7, 3.8, 3.9.
+
 v1.6.0
 ======
 
