@@ -83,13 +83,23 @@ def forked_run_report(item):
 
 def report_process_crash(item, result):
     from _pytest._code import getfslineno
+    import signal as signal_module
 
     path, lineno = getfslineno(item)
-    info = "%s:%s: running the test CRASHED with signal %d" % (
-        path,
-        lineno,
-        result.signal,
-    )
+    if result.signal:
+        sig_name = signal_module.Signals(result.signal).name
+        info = "%s:%s: running the test CRASHED with signal %d (%s)" % (
+            path,
+            lineno,
+            result.signal,
+            sig_name,
+        )
+    else:
+        info = "%s:%s: running the test EXITED with status %d" % (
+            path,
+            lineno,
+            result.exitstatus,
+        )
     from _pytest import runner
 
     # pytest >= 4.1

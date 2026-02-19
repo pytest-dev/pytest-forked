@@ -67,6 +67,32 @@ def test_functional_boxed_capturing(testdir, capmode):
     )
 
 
+@needsfork
+def test_crash_message_shows_signal_name(testdir):
+    p1 = testdir.makepyfile(
+        """
+        import os, signal
+        def test_function():
+            os.kill(os.getpid(), signal.SIGTERM)
+    """
+    )
+    result = testdir.runpytest(p1, "--forked")
+    result.stdout.fnmatch_lines(["*CRASHED with signal 15 (SIGTERM)*", "*1 failed*"])
+
+
+@needsfork
+def test_crash_message_shows_exit_status(testdir):
+    p1 = testdir.makepyfile(
+        """
+        import os
+        def test_function():
+            os._exit(42)
+    """
+    )
+    result = testdir.runpytest(p1, "--forked")
+    result.stdout.fnmatch_lines(["*EXITED with status 42*", "*1 failed*"])
+
+
 def test_is_not_boxed_by_default(testdir):
     config = testdir.parseconfig(testdir.tmpdir)
     assert not config.option.forked
