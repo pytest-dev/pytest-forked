@@ -2,6 +2,7 @@ UNRELEASED
 ==========
 
 * Drop support for EOL Python versions: 3.7, 3.8, 3.9.
+* Print proper child process exit status.
 
 v1.6.0
 ======
