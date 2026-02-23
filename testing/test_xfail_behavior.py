@@ -69,7 +69,7 @@ def test_xfail(is_crashing, is_strict, testdir):
     reason_string = (
         f"reason: The process gets terminated; "
         f"pytest-forked reason: "
-        f"*:*: running the test CRASHED with signal {sig_num:d}"
+        f"*:*: running the test CRASHED with signal {sig_num:d}*"
     )
     if expected_lowercase == "xfailed" and PYTEST_GTE_7_2:
         short_test_summary += " - " + reason_string
