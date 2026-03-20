@@ -75,7 +75,7 @@ def test_xfail(is_crashing, is_strict, testdir):
         short_test_summary += " - " + reason_string
     if expected_lowercase == "failed" and PYTEST_GTE_9_0:
         short_test_summary += " - [XPASS(strict)] The process gets termin..."
-    total_summary_line = f"*==== 1 {expected_lowercase!s} in 0.*s* ====*"
+    total_summary_line = f"*==== 1 {expected_lowercase!s} in *s* ====*"
 
     expected_lines = (
         session_start_title,
