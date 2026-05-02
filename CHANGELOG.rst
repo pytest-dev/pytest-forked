@@ -4,6 +4,9 @@ UNRELEASED
 * Drop support for EOL Python versions: 3.7, 3.8, 3.9.
 * Print proper child process exit status.
 * Removed dependency to `py <https://pypi.org/project/py>`__.
+* Fix tests marked with `@pytest.mark.forked` in pytest 7+.
+* pytest >= 7 is now required.
+
 
 v1.6.0
 ======

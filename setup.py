@@ -19,7 +19,7 @@ setup(
         ],
     },
     zip_safe=False,
-    install_requires=["pytest>=3.10"],
+    install_requires=["pytest>=7"],
     setup_requires=["setuptools_scm"],
     python_requires=">=3.10",
     classifiers=[

@@ -93,6 +93,29 @@ def test_crash_message_shows_exit_status(testdir):
     result.stdout.fnmatch_lines(["*EXITED with status 42*", "*1 failed*"])
 
 
+@needsfork
+def test_forked_followed_by_other_test_tears_down(testdir):
+    testdir.makepyfile(
+        test_a="""
+        import pytest
+
+        def test_unforked():
+            assert True
+
+        @pytest.mark.forked
+        def test_forked():
+            assert True
+        """,
+        test_b="""
+        def test_other_module():
+            assert True
+        """,
+    )
+    result = testdir.runpytest()
+    result.stdout.fnmatch_lines(["*3 passed*"])
+    assert result.ret == 0
+
+
 def test_is_not_boxed_by_default(testdir):
     config = testdir.parseconfig(testdir.tmpdir)
     assert not config.option.forked
