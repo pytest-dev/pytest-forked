@@ -5,6 +5,11 @@ import py
 import pytest
 from _pytest import runner
 
+try:
+    import coverage
+except ImportError:
+    coverage = None
+
 # we know this bit is bad, but we cant help it with the current pytest setup
 
 
@@ -55,6 +60,20 @@ def pytest_runtest_protocol(item):
         return True
 
 
+def flush_coverage():
+    if coverage is None:
+        return
+
+    cov = coverage.Coverage.current()
+    if cov:
+        try:
+            cov.stop()
+            cov.save()
+        except Exception:
+            # Don't let coverage errors interfere with test reporting
+            pass
+
+
 def forked_run_report(item):
     # for now, we run setup/teardown in the subprocess
     # XXX optionally allow sharing of setup/teardown
@@ -67,8 +86,14 @@ def forked_run_report(item):
         try:
             reports = runtestprotocol(item, log=False)
         except KeyboardInterrupt:
+            flush_coverage()
             os._exit(EXITSTATUS_TESTEXIT)
-        return marshal.dumps([serialize_report(x) for x in reports])
+        except BaseException:
+            flush_coverage()
+            raise
+        else:
+            flush_coverage()
+            return marshal.dumps([serialize_report(x) for x in reports])
 
     ff = py.process.ForkedFunc(runforked)
     result = ff.waitfinish()
