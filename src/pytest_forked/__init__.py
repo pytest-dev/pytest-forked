@@ -8,6 +8,11 @@ import warnings
 import pytest
 from _pytest import runner
 
+try:
+    import coverage
+except ImportError:
+    coverage = None
+
 # we know this bit is bad, but we cant help it with the current pytest setup
 
 # copied from xdist remote
@@ -67,6 +72,27 @@ class _ForkedResult:
         self.err = ""
 
 
+def _flush_coverage():
+    """Persist coverage data collected in this (child) process.
+
+    The forked child always terminates via os._exit(), which skips the
+    atexit handler coverage relies on to write its data. Without an explicit
+    stop()/save() here, everything executed inside the fork is reported as
+    uncovered.
+    """
+    if coverage is None:
+        return
+
+    cov = coverage.Coverage.current()
+    if cov:
+        try:
+            cov.stop()
+            cov.save()
+        except Exception:
+            # Don't let coverage errors interfere with test reporting
+            pass
+
+
 def _worker(runforked_fn, stdout_path, stderr_path, retval_path):
     """
     Child process entry point.
@@ -99,6 +125,9 @@ def _worker(runforked_fn, stdout_path, stderr_path, retval_path):
     except Exception:
         os._exit(EXITSTATUS_EXCEPTION)
     finally:
+        # The child always leaves via os._exit(), which bypasses coverage's
+        # atexit save. Flush here so lines run in the fork are recorded.
+        _flush_coverage()
         try:
             sys.stdout.flush()
             sys.stderr.flush()
