@@ -7,21 +7,40 @@ on:
 
 jobs:
 
-  deploy:
+  package:
 
     runs-on: ubuntu-latest
 
+    # Required by attest-build-provenance-github.
+    permissions:
+      id-token: write
+      attestations: write
+
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v7
+
     - name: Build and Check Package
-      uses: hynek/build-and-inspect-python-package@v1.5
+      uses: hynek/build-and-inspect-python-package@v3.0.1
+      with:
+        attest-build-provenance-github: 'true'
+
+  deploy:
+
+    needs: [package]
+
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+
+    environment: deploy
+
+    steps:
     - name: Download Package
-      uses: actions/download-artifact@v3
+      uses: actions/download-artifact@v8
       with:
         name: Packages
         path: dist
+
     - name: Publish package to PyPI
-      uses: pypa/gh-action-pypi-publish@release/v1
-      with:
-        user: __token__
-        password: ${{ secrets.pypi_token }}
+      uses: pypa/gh-action-pypi-publish@v1.14.2
