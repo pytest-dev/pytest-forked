@@ -6,9 +6,10 @@ import pytest
 
 IS_PYTEST4_PLUS = int(pytest.__version__[0]) >= 4  # noqa: WPS609
 FAILED_WORD = "FAILED" if IS_PYTEST4_PLUS else "FAIL"
-PYTEST_GTE_7_2 = hasattr(pytest, "version_tuple") and pytest.version_tuple >= (7, 2)  # type: ignore[attr-defined]
-PYTEST_GTE_8_0 = hasattr(pytest, "version_tuple") and pytest.version_tuple >= (8, 0)  # type: ignore[attr-defined]
-PYTEST_GTE_9_0 = hasattr(pytest, "version_tuple") and pytest.version_tuple >= (9, 0)  # type: ignore[attr-defined]
+_VERSION_TUPLE = getattr(pytest, "version_tuple", None)
+PYTEST_GTE_7_2 = _VERSION_TUPLE is not None and _VERSION_TUPLE >= (7, 2)
+PYTEST_GTE_8_0 = _VERSION_TUPLE is not None and _VERSION_TUPLE >= (8, 0)
+PYTEST_GTE_9_0 = _VERSION_TUPLE is not None and _VERSION_TUPLE >= (9, 0)
 
 pytestmark = pytest.mark.skipif(  # pylint: disable=invalid-name
     not hasattr(os, "fork"),  # noqa: WPS421

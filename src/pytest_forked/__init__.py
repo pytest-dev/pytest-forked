@@ -10,6 +10,7 @@ from _pytest import runner
 
 # we know this bit is bad, but we cant help it with the current pytest setup
 
+
 # copied from xdist remote
 def serialize_report(rep):
     d = rep.__dict__.copy()
