@@ -116,6 +116,27 @@ def test_forked_followed_by_other_test_tears_down(testdir):
     assert result.ret == 0
 
 
+@needsfork
+@pytest.mark.parametrize("capmode", ["fd", "sys"])
+def test_forked_no_unclosed_output_warning(testdir, capmode):
+    testdir.makeini("[pytest]\nfilterwarnings = error\n")
+    p1 = testdir.makepyfile(
+        """
+        import pytest
+
+        @pytest.mark.forked
+        def test_forked_pass():
+            assert True
+
+        def test_after_forked():
+            assert True
+    """
+    )
+    result = testdir.runpytest(p1, "--capture=%s" % capmode)
+    result.assert_outcomes(passed=2)
+    assert result.ret == 0
+
+
 def test_is_not_boxed_by_default(testdir):
     config = testdir.parseconfig(testdir.tmpdir)
     assert not config.option.forked

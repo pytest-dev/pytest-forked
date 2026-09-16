@@ -1,3 +1,9 @@
+UNRELEASED
+==========
+
+* Fix unclosed stdout/stderr files created by forked worker
+  (`#106 <https://github.com/pytest-dev/pytest-forked/issues/106>`__).
+
 v1.7.5
 ======
 

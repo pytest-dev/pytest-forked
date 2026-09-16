@@ -84,8 +84,11 @@ def _worker(runforked_fn, stdout_path, stderr_path, retval_path):
     os.close(stderr_fd)
 
     # redirect Python-level streams so print() etc. work
-    sys.stdout = open(stdout_path, "w", buffering=1)
-    sys.stderr = open(stderr_path, "w", buffering=1)
+    # keep handles to close below: capture swaps sys streams without closing
+    stdout_file = open(stdout_path, "w", buffering=1)
+    stderr_file = open(stderr_path, "w", buffering=1)
+    sys.stdout = stdout_file
+    sys.stderr = stderr_file
 
     try:
         retval = runforked_fn()
@@ -104,6 +107,11 @@ def _worker(runforked_fn, stdout_path, stderr_path, retval_path):
             sys.stderr.flush()
         except Exception:
             pass
+        for stream in (stdout_file, stderr_file):
+            try:
+                stream.close()
+            except Exception:
+                pass
 
     os._exit(0)
 
