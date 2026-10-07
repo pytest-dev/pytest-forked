@@ -68,6 +68,24 @@ def test_functional_boxed_capturing(testdir, capmode):
 
 
 @needsfork
+def test_forked_test_does_not_leak_streams(testdir):
+    # A forked test must not leave the redirected stdout/stderr open: an
+    # unclosed stream raises a ResourceWarning, which becomes a
+    # PytestUnraisableExceptionWarning and fails the run under -W error (#106).
+    p1 = testdir.makepyfile(
+        """
+        import pytest
+
+        @pytest.mark.forked
+        def test_function():
+            assert True
+    """
+    )
+    result = testdir.runpytest(p1, "-W", "error")
+    result.stdout.fnmatch_lines(["*1 passed*"])
+
+
+@needsfork
 def test_crash_message_shows_signal_name(testdir):
     p1 = testdir.makepyfile(
         """

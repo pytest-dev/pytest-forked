@@ -83,9 +83,14 @@ def _worker(runforked_fn, stdout_path, stderr_path, retval_path):
     os.close(stdout_fd)
     os.close(stderr_fd)
 
-    # redirect Python-level streams so print() etc. work
-    sys.stdout = open(stdout_path, "w", buffering=1)
-    sys.stderr = open(stderr_path, "w", buffering=1)
+    # redirect Python-level streams so print() etc. work.
+    # Keep our own references: pytest's capture manager rebinds sys.stdout /
+    # sys.stderr while the test runs, so closing sys.stdout in the finally
+    # below would close the wrong object and leak ours.
+    stdout_stream = open(stdout_path, "w", buffering=1)
+    stderr_stream = open(stderr_path, "w", buffering=1)
+    sys.stdout = stdout_stream
+    sys.stderr = stderr_stream
 
     try:
         retval = runforked_fn()
@@ -99,11 +104,16 @@ def _worker(runforked_fn, stdout_path, stderr_path, retval_path):
     except Exception:
         os._exit(EXITSTATUS_EXCEPTION)
     finally:
-        try:
-            sys.stdout.flush()
-            sys.stderr.flush()
-        except Exception:
-            pass
+        # Flush and close the streams we opened. Closing (not just flushing) is
+        # required: an unclosed file raises a ResourceWarning when it is
+        # finalised, which pytest's unraisable-exception handling turns into a
+        # test error (#106).
+        for stream in (stdout_stream, stderr_stream):
+            try:
+                stream.flush()
+                stream.close()
+            except Exception:
+                pass
 
     os._exit(0)
 

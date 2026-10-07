@@ -1,6 +1,10 @@
 v1.7.5
 ======
 
+* Close the redirected stdout/stderr in the forked child, so a forked test no
+  longer leaks a file descriptor and fails under ``-W error`` with a
+  ``ResourceWarning`` / ``PytestUnraisableExceptionWarning``
+  (`#106 <https://github.com/pytest-dev/pytest-forked/issues/106>`__).
 * Drop support for EOL Python versions: 3.7, 3.8, 3.9.
 * Print proper child process exit status.
 * Removed dependency to `py <https://pypi.org/project/py>`__.
