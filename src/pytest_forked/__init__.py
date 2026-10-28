@@ -13,6 +13,10 @@ from _pytest import runner
 # copied from xdist remote
 def serialize_report(rep):
     d = rep.__dict__.copy()
+    # pytest >= 9.2 stores a NodeId object in ``_id`` and exposes ``nodeid``
+    # as a property. convert it to a plain string.
+    if "_id" in d:
+        d["nodeid"] = str(d.pop("_id"))
     if hasattr(rep.longrepr, "toterminal"):
         d["longrepr"] = str(rep.longrepr)
     else:
@@ -97,6 +101,11 @@ def _worker(runforked_fn, stdout_path, stderr_path, retval_path):
         code = e.code if e.code is not None else 0
         os._exit(int(code))
     except Exception:
+        import traceback
+
+        # pytest's capture has restored fd 2 by now; write to the file directly
+        with open(stderr_path, "a") as f:
+            traceback.print_exc(file=f)
         os._exit(EXITSTATUS_EXCEPTION)
     finally:
         try:
@@ -221,12 +230,10 @@ def report_process_crash(item, result):
 
     from _pytest import runner
 
-    # pytest >= 4.1
-    has_from_call = getattr(runner.CallInfo, "from_call", None) is not None
-    if has_from_call:
-        call = runner.CallInfo.from_call(lambda: 0 / 0, "???")
-    else:
-        call = runner.CallInfo(lambda: 0 / 0, "???")
+    # The child died while running the test body, so report it as the
+    # "call" phase.
+    # pytest >= 9.2 prints the phase in the short summary; handle it here.
+    call = runner.CallInfo.from_call(lambda: 0 / 0, "call")
     call.excinfo = info
     rep = runner.pytest_runtest_makereport(item, call)
     if result.out:

@@ -1,3 +1,12 @@
+Unreleased
+==========
+
+* Fix compatibility with pytest 9.2: reports now carry a ``NodeId`` object that
+  ``marshal`` cannot serialize, which made every forked test exit with status 3.
+* Report crashes as the ``call`` phase instead of ``???``.
+* Show the traceback when the forked child fails outside the test itself.
+
+
 v1.7.5
 ======
 

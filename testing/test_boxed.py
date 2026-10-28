@@ -1,6 +1,10 @@
+import marshal
 import os
 
 import pytest
+from _pytest.reports import TestReport
+
+from pytest_forked import serialize_report
 
 needsfork = pytest.mark.skipif(not hasattr(os, "fork"), reason="os.fork required")
 
@@ -119,3 +123,42 @@ def test_forked_followed_by_other_test_tears_down(testdir):
 def test_is_not_boxed_by_default(testdir):
     config = testdir.parseconfig(testdir.tmpdir)
     assert not config.option.forked
+
+
+def test_serialize_report_roundtrips_through_marshal():
+    rep = TestReport(
+        "test_x.py::test_y",
+        ("test_x.py", 1, "test_y"),
+        {},
+        "passed",
+        None,
+        "call",
+        [],
+        0.1,
+        0.0,
+        0.1,
+        [],
+    )
+    d = marshal.loads(marshal.dumps(serialize_report(rep)))
+    assert "_id" not in d
+    rebuilt = TestReport(**d)
+    assert rebuilt.nodeid == rep.nodeid
+    assert rebuilt.outcome == "passed"
+
+
+@needsfork
+def test_child_exception_traceback_is_reported(testdir):
+    p1 = testdir.makepyfile(
+        """
+        def test_function(record_property):
+            record_property("obj", object())
+        """
+    )
+    result = testdir.runpytest(p1, "--forked")
+    result.stdout.fnmatch_lines(
+        [
+            "*EXITED with status 3*",
+            "*ValueError: unmarshallable object*",
+            "*1 failed*",
+        ]
+    )
